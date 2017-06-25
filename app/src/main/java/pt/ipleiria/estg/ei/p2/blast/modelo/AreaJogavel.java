@@ -37,13 +37,13 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
     private static final int[][] NIVEL = {
             {BASEAR_, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASEAR_},
-            {BOMBA__, BASESUP, VIDRO__, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP},
+            {BOMBA__, BASESUP, VIDRO__, BASESUP, BASESUP, BASESUP, LASER__, BASESUP, BASESUP},
             {PORCO__, BASESUP, BASESUP, BASEAR_, BASEAR_, PORCO__, BASESUP, BASESUP, BASESUP},
             {PEDRA__, BASESUP, BASESUP, BASEAR_, BASEAR_, PEDRA__, BASESUP, BASESUP, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, MADEIRA, MADEIRA, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BOMBA__, BASESUP, VIDRO__},
-            {BASESUP, BASESUP, BASESUP, BASESUP, LASER__, BASESUP, FOGUETE, BASESUP, VIDRO__},
+            {BASESUP, BASESUP, BASESUP, FOGUETE, LASER__, BASESUP, FOGUETE, BASESUP, VIDRO__},
             {BASEAR_, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASEAR_}
     };
 
@@ -308,4 +308,36 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
         return bases;
     }
-}
+
+    public List<BaseSuportadora> getBasesSuportadorasMesmaEspecie(Posicao posicao, Especie especie) {
+        List<BaseSuportadora> bases = new ArrayList<>();
+
+        for (int linha = 0; linha <= NUMERO_LINHAS; linha++) {
+            for (int col = 0; col <= NUMERO_COLUNAS; col++) {
+                Base base = getBase(linha, col);
+                if (base instanceof BaseSuportadora) {
+                    Suportado aux = ((BaseSuportadora) base).getSuportado();
+                    if (aux instanceof Balao) {
+                        if (((Balao) aux).getEspecie() == especie)
+                            bases.add((BaseSuportadora) base);
+                    }
+                }
+            }
+        }
+        return bases;
+    }
+
+    public List<BaseSuportadora> getTodasAsBases() {
+        List<BaseSuportadora> bases = new ArrayList<>();
+
+        for (int k = 0; k < NUMERO_LINHAS; k++) {
+            for (int i = 0; i < NUMERO_COLUNAS; i++) {
+                Base aux = getBase(k, i);
+                if (aux instanceof BaseSuportadora)
+                    bases.add((BaseSuportadora) aux);
+            }
+        }
+        return bases;
+    }
+    }
+

@@ -84,7 +84,7 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
 
     public void influenciarObjetivoDoJogo(Objetivavel objetivavel) {
         objetivoJogo.influenciar(objetivavel);
-        if (objetivoJogo.isConcluido() && estadoJogo==EstadoJogo.A_DECORRER) {
+        if (objetivoJogo.isConcluido() && estadoJogo == EstadoJogo.A_DECORRER) {
             estadoJogo = EstadoJogo.CONCLUIDO_VITORIA;
             informarObjetivosAtingidos();
         }
@@ -214,5 +214,27 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         for (OuvinteJogo ouvinte : ouvintes) {
             ouvinte.laserCriada(laser, baseSuportadora);
         }
+    }
+
+    public void informarLaserDisparado(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.laserDisparado(laser);
+        }
+    }
+
+    public void informarCombinacaoLaserDisparado(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.combinacaoLasersDisparado(laser);
+        }
+    }
+
+    public void informarCombinacaoLaserBombaDisparados(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes)
+            ouvinte.combinacaoLaserBombaDisparados(laser);
+    }
+
+    public void informarCombinacaoLaserFogueteDisparados(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes)
+            ouvinte.combinacaoLaserFogueteDisparados(laser);
     }
 }

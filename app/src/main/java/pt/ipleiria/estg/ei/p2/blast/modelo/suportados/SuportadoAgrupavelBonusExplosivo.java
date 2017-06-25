@@ -57,27 +57,23 @@ public abstract class SuportadoAgrupavelBonusExplosivo extends SuportadoAgrupave
 
     }
 
-    private boolean isBonusCombinado(List<SuportadoAgrupavelBonus> grupo) {
-        for(SuportadoAgrupavelBonus v : grupo){
-            if (!v.getClass().getName().equals(this.getClass().getName())){
-                return true;
-            }
-        }
-        return false;
-    }
 
-    protected abstract void aplicarDestruicaoDupla();
 
-    protected abstract void aplicarDestruicaoSimples();
 
     protected void expandirExplosao(List<BaseSuportadora> bases) {
         for (BaseSuportadora base : bases) {
             base.reagirBonus();
         }
     }
+
+    protected abstract void aplicarDestruicaoSimples();
+
+    protected abstract void aplicarDestruicaoDupla();
+
     @Override
     public void reagirBonus() {
         explodir();
         aplicarDestruicaoSimples();
     }
+
 }
