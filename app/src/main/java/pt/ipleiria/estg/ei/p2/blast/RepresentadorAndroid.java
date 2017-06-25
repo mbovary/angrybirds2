@@ -20,6 +20,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.bases.Base;
 import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcial;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialBalao;
+import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialOvo;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.CaixaSurpresa;
@@ -73,6 +74,8 @@ public class RepresentadorAndroid implements OuvinteJogo {
             if (objetivoParcial instanceof ObjetivoParcialBalao) {
                 info.add(0, i, new SingleImageCellRepresentation(context,
                         ((ObjetivoParcialBalao) objetivoParcial).getEspecie().toString() + ".png"));
+            } else if (objetivoParcial instanceof ObjetivoParcialOvo) {
+                info.add(0, i, new SingleImageCellRepresentation(context, "Ovo.png"));
             } else {
                 info.add(0, i, new SingleImageCellRepresentation(context, "Porco2.png"));
             }

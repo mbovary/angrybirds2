@@ -7,6 +7,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.bases.Base;
 import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoJogo;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialBalao;
+import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialOvo;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialPorco;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
@@ -37,6 +38,7 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         objetivoJogo = new ObjetivoJogo();
         objetivoJogo.adicionar(new ObjetivoParcialBalao(Especie.STELLA, 4));
         objetivoJogo.adicionar(new ObjetivoParcialPorco(2));
+        objetivoJogo.adicionar(new ObjetivoParcialOvo(2));
         ouvintes = new ArrayList<>();
     }
 
@@ -228,6 +230,9 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         }
     }
 
-    public void informarDestruicaoCaixaSurpesaSemOvo(CaixaSurpresa caixaSurpresa) {
+    public void informarDestruicaoCaixaSurpesaSemOvo(CaixaSurpresa caixa) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.caixaSurpresaSemOvoRebentada(caixa);
+        }
     }
 }

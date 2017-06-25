@@ -81,30 +81,24 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
     }
 
     private void criarCaixaSurpresa(BaseSuportadora baseSuportadora) {
-
+        CaixaSurpresa caixa;
 
         int randomovo = getValorAleatorio(10);
-        CaixaSurpresa caixa;
 
         if (randomovo >= 11) {
             caixa = new CaixaSurpresa(baseSuportadora, false);
             if (jogo != null) {
                 jogo.informarCriacaoCaixaSurpresa(caixa, baseSuportadora);
+                baseSuportadora.setSuportado(caixa);
             }
         }
         else {
             caixa = new CaixaSurpresa(baseSuportadora, true);
             if (jogo != null) {
                 jogo.informarCriacaoCaixaSupresaComOvo(caixa, baseSuportadora);
+                baseSuportadora.setSuportado(caixa);
             }
 
-        }
-        baseSuportadora.setSuportado(caixa);
-
-
-
-        if (jogo != null) {
-            jogo.informarCriacaoCaixaSurpresa(caixa, baseSuportadora);
         }
     }
 

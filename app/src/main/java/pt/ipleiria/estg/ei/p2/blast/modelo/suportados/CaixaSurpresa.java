@@ -24,6 +24,7 @@ public class CaixaSurpresa extends SuportadoSensivelOndaChoqueSemForca {
         if (this.isOvo == true) {
             getJogo().incrementarPontuacao(160);
             getJogo().informarDestruicaoCaixaSurpesaComOvo(this);
+            getJogo().influenciarObjetivoDoJogo(this.ovo);
 
         } else {
             getJogo().incrementarPontuacao(80);
