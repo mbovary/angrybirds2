@@ -4,13 +4,13 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 
 public class CaixaSurpresa extends SuportadoSensivelOndaChoqueSemForca {
 
-    protected boolean isOvo;
-    private Ovo ovo;
+    private static Ovo ovo;
 
     public CaixaSurpresa(BaseSuportadora baseSuportadora, boolean isOvo) {
         super(baseSuportadora);
         if (isOvo == true) {
-            ovo = new Ovo();
+            ovo = new Ovo(this);
+            this.setOvo(ovo);
         }
         else {
             ovo = null;
@@ -21,14 +21,26 @@ public class CaixaSurpresa extends SuportadoSensivelOndaChoqueSemForca {
     @Override
     public void explodir() {
        super.explodir();
-        if (this.isOvo == true) {
-            getJogo().incrementarPontuacao(160);
+        getJogo().incrementarPontuacao(80);
+        if (ovo != null) {
+            this.getOvo().explodir();
+            this.libertarOvo();
             getJogo().informarDestruicaoCaixaSurpesaComOvo(this);
-            getJogo().influenciarObjetivoDoJogo(this.ovo);
 
         } else {
-            getJogo().incrementarPontuacao(80);
             getJogo().informarDestruicaoCaixaSurpesaSemOvo(this);
         }
+    }
+
+    public static Ovo getOvo() {
+        return ovo;
+    }
+
+    public void libertarOvo() {
+        ovo = null;
+    }
+
+    public void setOvo(Ovo ovo) {
+        this.ovo = ovo;
     }
 }
