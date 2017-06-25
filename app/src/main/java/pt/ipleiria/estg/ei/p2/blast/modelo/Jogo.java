@@ -215,4 +215,19 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
             ouvinte.caixaSurpresaCriada(caixa, baseSuportadora);
         }
     }
+
+    public void informarCriacaoCaixaSupresaComOvo(CaixaSurpresa caixa, BaseSuportadora baseSuportadora) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.caixaSurpresaComOvoCriada(caixa, baseSuportadora);
+        }
+    }
+
+    public void informarDestruicaoCaixaSurpesaComOvo(CaixaSurpresa caixa) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.caixaSurpresaComOvoRebentada(caixa);
+        }
+    }
+
+    public void informarDestruicaoCaixaSurpesaSemOvo(CaixaSurpresa caixaSurpresa) {
+    }
 }

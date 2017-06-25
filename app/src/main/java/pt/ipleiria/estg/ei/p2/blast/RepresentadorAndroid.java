@@ -355,4 +355,26 @@ public class RepresentadorAndroid implements OuvinteJogo {
         colocarEm(baseSuportadora.getPosicao(), "CaixaSurpresa.png");
     }
 
+    @Override
+    public void caixaSurpresaComOvoCriada(CaixaSurpresa caixa, BaseSuportadora baseSuportadora) {
+        componente.setCurrentLayer(1);
+        colocarEm(baseSuportadora.getPosicao(), "CaixaSurpresa.png");
+
+    }
+
+    @Override
+    public void caixaSurpresaComOvoRebentada(CaixaSurpresa caixa) {
+        BaseSuportadora baseSuportadora = caixa.getBaseSuportadora();
+          animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Explosao.png", 2);
+          componente.setCurrentLayer(1);
+          colocarEm(baseSuportadora.getPosicao(),"Ovo.png");
+          animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Explosao.png", 2);
+    }
+
+    @Override
+    public void caixaSurpresaSemOvoRebentada(CaixaSurpresa caixa) {
+        BaseSuportadora baseSuportadora = caixa.getBaseSuportadora();
+        animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Explosao.png", 2);
+           }
+
 }
