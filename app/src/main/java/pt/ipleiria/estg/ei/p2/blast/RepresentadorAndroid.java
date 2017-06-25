@@ -159,14 +159,7 @@ public class RepresentadorAndroid implements OuvinteJogo {
         } else if (suportado instanceof Bomba) {
             colocarEm(posicao, "Bomba.png");
         } else if (suportado instanceof CaixaSurpresa) {
-            if (CaixaSurpresa.getOvo() == null) {
-                colocarEm(posicao, "CaixaSurpresa.png");
-            }
-            else {
-                colocarEm(posicao, "Ovo.png");
-            }
-
-
+            colocarEm(posicao, "CaixaSurpresa.png");
     }
     }
 
@@ -368,19 +361,15 @@ public class RepresentadorAndroid implements OuvinteJogo {
     @Override
     public void caixaSurpresaComOvoCriada(CaixaSurpresa caixa, BaseSuportadora baseSuportadora) {
         componente.setCurrentLayer(1);
-        colocarEm(baseSuportadora.getPosicao(), "Ovo.png");
-
+        colocarEm(baseSuportadora.getPosicao(), "CaixaSupresa.png");
 
     }
 
     @Override
     public void caixaSurpresaComOvoRebentada(CaixaSurpresa caixa) {
         BaseSuportadora baseSuportadora = caixa.getBaseSuportadora();
-          animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Explosao.png", 2);
-          //componente.setCurrentLayer(1);
-         // colocarEm(baseSuportadora.getPosicao(),"Ovo.png");
-         // animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Explosao.png", 2);
-    }
+          animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Ovo.png", 2);
+             }
 
     @Override
     public void caixaSurpresaSemOvoRebentada(CaixaSurpresa caixa) {
