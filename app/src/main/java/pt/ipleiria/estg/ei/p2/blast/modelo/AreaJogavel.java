@@ -85,7 +85,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
         int randomovo = getValorAleatorio(10);
 
-        if (randomovo >= 11) {
+        if (randomovo >= 5) {
             caixa = new CaixaSurpresa(baseSuportadora, false);
             if (jogo != null) {
                 jogo.informarCriacaoCaixaSurpresa(caixa, baseSuportadora);
@@ -96,10 +96,11 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
             caixa = new CaixaSurpresa(baseSuportadora, true);
             if (jogo != null) {
                 jogo.informarCriacaoCaixaSupresaComOvo(caixa, baseSuportadora);
-                baseSuportadora.setSuportado(caixa);
+
             }
 
         }
+        baseSuportadora.setSuportado(caixa);
     }
 
     public void criarBomba(BaseSuportadora baseSuportadora) {
