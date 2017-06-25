@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import pt.ipleiria.estg.dei.gridcomponent.CellRepresentation;
@@ -24,6 +23,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialBalao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Laser;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Pedra;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Porco;
@@ -155,7 +155,9 @@ public class RepresentadorAndroid implements OuvinteJogo {
             colocarEm(posicao, "Pedra" + ((Pedra) suportado).getForca() + ".png");
         } else if (suportado instanceof Bomba) {
             colocarEm(posicao, "Bomba.png");
-        }
+        } else if (suportado instanceof Laser) {
+            colocarEm(posicao, "Laser" + Laser.getEspecie().toString() + ".png");
+    }
     }
 
     private void colocarEm(Posicao posicao, String imagem) {
@@ -345,6 +347,14 @@ public class RepresentadorAndroid implements OuvinteJogo {
             origem = new Posicao(jogo.getAreaJogavel().getNumeroLinhas() - 1, destino.getColuna());
             animar(origem, destino, TEMPO_ANIMACAO, "FogueteVERTICAL.png", 0);
         }
+    }
+
+    @Override
+    public void laserCriada(Laser laser, BaseSuportadora baseSuportadora) {
+        componente.setCurrentLayer(1);
+        Posicao posicao = laser.getBaseSuportadora().getPosicao();
+        colocarEm(posicao, "Laser" + Laser.getEspecie().toString() + ".png");
+
     }
 
 }

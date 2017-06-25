@@ -3,7 +3,7 @@ package pt.ipleiria.estg.ei.p2.blast.modelo.suportados;
 import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Direcao;
 
-public class Foguete extends SuportadoAgrupavelBonus {
+public class Foguete extends SuportadoAgrupavelBonusExplosivo {
 
     private Direcao direcao;
 

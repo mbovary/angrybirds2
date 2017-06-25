@@ -5,7 +5,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 
 public class Laser extends SuportadoAgrupavelBonus {
 
-    private Especie especie;
+    private static Especie especie;
 
     public Laser(BaseSuportadora baseSuportadora) {
         super(baseSuportadora);
@@ -25,5 +25,9 @@ public class Laser extends SuportadoAgrupavelBonus {
     @Override
     public void reagirInteracao() {
 
+    }
+
+    public static Especie getEspecie() {
+        return especie;
     }
 }

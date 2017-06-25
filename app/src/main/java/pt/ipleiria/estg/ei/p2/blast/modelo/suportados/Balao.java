@@ -1,10 +1,14 @@
 package pt.ipleiria.estg.ei.p2.blast.modelo.suportados;
 
-import pt.ipleiria.estg.ei.p2.blast.modelo.*;
-import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import pt.ipleiria.estg.ei.p2.blast.modelo.DelegadoEspecie;
+import pt.ipleiria.estg.ei.p2.blast.modelo.Especie;
+import pt.ipleiria.estg.ei.p2.blast.modelo.Objetivavel;
+import pt.ipleiria.estg.ei.p2.blast.modelo.ObjetoComEspecie;
+import pt.ipleiria.estg.ei.p2.blast.modelo.SensivelOndaChoque;
+import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 
 public class Balao extends SuportadoAgrupavel implements Objetivavel, ObjetoComEspecie {
     private DelegadoEspecie delegadoEspecie;
@@ -39,6 +43,10 @@ public class Balao extends SuportadoAgrupavel implements Objetivavel, ObjetoComE
                 } else {
                     getBaseSuportadora().criarFoguete();
                 }
+            }
+
+            if (tamanhoGrupo == 9) {
+                getBaseSuportadora().criarLaser(this.getEspecie());
             }
         }
     }

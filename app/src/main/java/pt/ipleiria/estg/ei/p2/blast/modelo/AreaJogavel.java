@@ -1,14 +1,22 @@
 package pt.ipleiria.estg.ei.p2.blast.modelo;
 
-import pt.ipleiria.estg.ei.p2.blast.modelo.bases.Base;
-import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseAr;
-import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
-import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.*;
-import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Posicao;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import pt.ipleiria.estg.ei.p2.blast.modelo.bases.Base;
+import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseAr;
+import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Laser;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Pedra;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Porco;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Suportado;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Vidro;
+import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Posicao;
 
 public class AreaJogavel implements Iteravel, InterativoPosicao {
     private static int NUMERO_LINHAS;
@@ -21,6 +29,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
     private static final int MADEIRA = 5;
     private static final int PEDRA__ = 6;
     private static final int BOMBA__ = 7;
+    private static final int LASER__ = 9;
     private Random aleatorio = new Random();
 
     private Base grelha[][];
@@ -34,7 +43,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, MADEIRA, MADEIRA, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BOMBA__, BASESUP, VIDRO__},
-            {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, FOGUETE, BASESUP, VIDRO__},
+            {BASESUP, BASESUP, BASESUP, BASESUP, LASER__, BASESUP, FOGUETE, BASESUP, VIDRO__},
             {BASEAR_, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASEAR_}
     };
 
@@ -65,8 +74,29 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
                     case BOMBA__:
                         criarBomba((BaseSuportadora) grelha[i][j]);
                         break;
+                    case LASER__:
+                        criarLaser((BaseSuportadora) grelha[i][j]);
+                        break;
                 }
             }
+    }
+
+    private void criarLaser(BaseSuportadora baseSuportadora) {
+        Laser laser = new Laser(baseSuportadora);
+        baseSuportadora.setSuportado(laser);
+
+        if (jogo != null) {
+            jogo.informarCriacaoLaser(laser, baseSuportadora);
+        }
+    }
+
+    public void criarLaserComEspecie(BaseSuportadora baseSuportadora, Especie especie) {
+        Laser laser = new Laser(baseSuportadora, especie);
+        baseSuportadora.setSuportado(laser);
+
+        if (jogo != null) {
+            jogo.informarCriacaoLaser(laser, baseSuportadora);
+        }
     }
 
     public void criarBomba(BaseSuportadora baseSuportadora) {

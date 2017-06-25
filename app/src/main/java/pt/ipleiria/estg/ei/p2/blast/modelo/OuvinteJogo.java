@@ -40,4 +40,6 @@ public interface OuvinteJogo {
     void bombaCriada(Bomba bomba, BaseSuportadora baseSuportadora);
 
     void combinacaoBombaFogueteAtivada(SuportadoAgrupavelBonus suportadoAgrupavelBonus);
+
+    void laserCriada(Laser laser, BaseSuportadora baseSuportadora);
 }
