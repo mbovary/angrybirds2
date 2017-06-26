@@ -11,6 +11,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialPorco;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Laser;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Pedra;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Porco;
@@ -83,7 +84,7 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
 
     public void influenciarObjetivoDoJogo(Objetivavel objetivavel) {
         objetivoJogo.influenciar(objetivavel);
-        if (objetivoJogo.isConcluido() && estadoJogo==EstadoJogo.A_DECORRER) {
+        if (objetivoJogo.isConcluido() && estadoJogo == EstadoJogo.A_DECORRER) {
             estadoJogo = EstadoJogo.CONCLUIDO_VITORIA;
             informarObjetivosAtingidos();
         }
@@ -209,9 +210,38 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         }
     }
 
+
     public void informarBotaoBoosterActivado() {
         for (OuvinteJogo ouvinte : ouvintes) {
             ouvinte.botaoBoosterActivado();
         }
     }
+    public void informarCriacaoLaser(Laser laser, BaseSuportadora baseSuportadora) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.laserCriada(laser, baseSuportadora);
+        }
+    }
+
+    public void informarLaserDisparado(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.laserDisparado(laser);
+        }
+    }
+
+    public void informarCombinacaoLaserDisparado(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.combinacaoLasersDisparado(laser);
+        }
+    }
+
+    public void informarCombinacaoLaserBombaDisparados(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes)
+            ouvinte.combinacaoLaserBombaDisparados(laser);
+    }
+
+    public void informarCombinacaoLaserFogueteDisparados(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes)
+            ouvinte.combinacaoLaserFogueteDisparados(laser);
+    }
+
 }
