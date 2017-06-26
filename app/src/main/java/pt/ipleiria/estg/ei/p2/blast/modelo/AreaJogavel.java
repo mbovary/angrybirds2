@@ -15,6 +15,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Pedra;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Porco;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Suportado;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoAgrupavelBonus;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Vidro;
 import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Posicao;
 
@@ -273,9 +274,9 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                Posicao p = posicao.seguirVetor(new Posicao(i,j));
+                Posicao p = posicao.seguirVetor(new Posicao(i, j));
                 Base aux = getBaseSuportadora(p.getLinha(), p.getColuna());
-                if (aux instanceof  BaseSuportadora){
+                if (aux instanceof BaseSuportadora) {
                     bases.add((BaseSuportadora) aux);
                 }
             }
@@ -289,20 +290,20 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
         bases.addAll(getBasesSuportadorasAdjacentes(posicao));
 
-        Base aux = getBase(posicao.seguirVetor(new Posicao(-2,0)));
-        if (aux instanceof  BaseSuportadora){
+        Base aux = getBase(posicao.seguirVetor(new Posicao(-2, 0)));
+        if (aux instanceof BaseSuportadora) {
             bases.add((BaseSuportadora) aux);
         }
-        aux = getBase(posicao.seguirVetor(new Posicao(0,-2)));
-        if (aux instanceof  BaseSuportadora){
+        aux = getBase(posicao.seguirVetor(new Posicao(0, -2)));
+        if (aux instanceof BaseSuportadora) {
             bases.add((BaseSuportadora) aux);
         }
-        aux = getBase(posicao.seguirVetor(new Posicao(0,2)));
-        if (aux instanceof  BaseSuportadora){
+        aux = getBase(posicao.seguirVetor(new Posicao(0, 2)));
+        if (aux instanceof BaseSuportadora) {
             bases.add((BaseSuportadora) aux);
         }
-        aux = getBase(posicao.seguirVetor(new Posicao(2,0)));
-        if (aux instanceof  BaseSuportadora){
+        aux = getBase(posicao.seguirVetor(new Posicao(2, 0)));
+        if (aux instanceof BaseSuportadora) {
             bases.add((BaseSuportadora) aux);
         }
 
@@ -313,10 +314,10 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
     public List<BaseSuportadora> getTodasAsBases() {
         List<BaseSuportadora> bases = new ArrayList<>();
 
-        for (int i = 0; i < NUMERO_LINHAS; i++){
-            for (int j = 0; j<NUMERO_COLUNAS; j++){
-                Base base = getBase(i,j);
-                if (base instanceof BaseSuportadora){
+        for (int i = 0; i < NUMERO_LINHAS; i++) {
+            for (int j = 0; j < NUMERO_COLUNAS; j++) {
+                Base base = getBase(i, j);
+                if (base instanceof BaseSuportadora) {
                     bases.add((BaseSuportadora) base);
                 }
             }
@@ -324,7 +325,6 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
         return bases;
     }
-}
 
     public List<BaseSuportadora> getBasesSuportadorasMesmaEspecie(Posicao posicao, Especie especie) {
         List<BaseSuportadora> bases = new ArrayList<>();
@@ -335,8 +335,9 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
                 if (base instanceof BaseSuportadora) {
                     Suportado aux = ((BaseSuportadora) base).getSuportado();
                     if (aux instanceof Balao) {
-                        if (((Balao) aux).getEspecie() == especie)
+                        if (((Balao) aux).getEspecie() == especie) {
                             bases.add((BaseSuportadora) base);
+                        }
                     }
                 }
             }
@@ -344,5 +345,17 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
         return bases;
     }
 
-    }
+    public int explodirBoosters() {
+        int countbooster = 0;
+        jogo.informarBotaoBoosterActivado();
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
+        for (BaseSuportadora base: bases) {
+            if (base != null && base.getSuportado() instanceof SuportadoAgrupavelBonus) {
+                base.getSuportado().explodir();
+                countbooster++;
+            }
+        }
+        return countbooster;
 
+    }
+}

@@ -7,18 +7,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import java.util.List;
-
 import pt.ipleiria.estg.dei.gridcomponent.GridComponent;
 import pt.ipleiria.estg.dei.gridcomponent.GridPanelEventHandler;
 import pt.ipleiria.estg.ei.p2.blast.modelo.Jogo;
-import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
-import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoAgrupavelBonus;
 
 public class MainActivity extends AppCompatActivity implements GridPanelEventHandler {
 
-    private static final int ADDBOOSTER = 1;
-    public static final String BOOSTER = "BOOSTER";
+    private static int ADDBOOSTER = 0;
+
 
     private Jogo jogo;
     private GridComponent gridComponent;
@@ -47,32 +43,20 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
         return true;
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menuBooster:
-                Intent intent = ResultadoActivity.createIntent(this);
-                startActivityForResult(intent, ADDBOOSTER);
-                explodirBoosters();
+            case menuBooster:
+                countbooster = jogo.getAreaJogavel().explodirBoosters();
+
+                item.setVisible(false);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    } */
 
-
-    private void explodirBoosters() {
-        int count = 0;
-        jogo.informarBotaoBoosterActivado();
-        List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
-        for (BaseSuportadora base: bases) {
-            if (base != null && base.getSuportado() instanceof SuportadoAgrupavelBonus) {
-                base.getSuportado().explodir();
-                count++;
-            }
-        }
-
-    }
 
 
     private void iniciarJogo() {
@@ -134,9 +118,20 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
             if (resultCode == RESULT_OK) {
                 iniciarJogo();
             } else {
-                finish();
+                 finish();
             }
         }
 
+    }
+
+
+    public Intent activateBooster(MenuItem item) {
+        int countbooster = jogo.getAreaJogavel().explodirBoosters();
+        Intent intent = new Intent(this, ResultadoActivity.class);
+        intent.putExtra("countbooster", countbooster);
+        ADDBOOSTER = 1;
+        startActivityForResult(intent, 1);
+
+        return intent;
     }
 }
