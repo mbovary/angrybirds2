@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import pt.ipleiria.estg.dei.gridcomponent.CellRepresentation;
@@ -83,6 +82,8 @@ public class RepresentadorAndroid implements OuvinteJogo {
 
         representarInfo();
     }
+
+
 
     public void representarInfo() {
         representarObjetivoJogo();
