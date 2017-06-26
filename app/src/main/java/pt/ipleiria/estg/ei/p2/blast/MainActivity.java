@@ -7,9 +7,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import pt.ipleiria.estg.dei.gridcomponent.GridComponent;
 import pt.ipleiria.estg.dei.gridcomponent.GridPanelEventHandler;
 import pt.ipleiria.estg.ei.p2.blast.modelo.Jogo;
+import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoAgrupavelBonus;
 
 public class MainActivity extends AppCompatActivity implements GridPanelEventHandler {
 
@@ -49,12 +53,26 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
             case R.id.menuBooster:
                 Intent intent = ResultadoActivity.createIntent(this);
                 startActivityForResult(intent, ADDBOOSTER);
+                explodirBoosters();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+
+    private void explodirBoosters() {
+        int count = 0;
+        jogo.informarBotaoBoosterActivado();
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
+        for (BaseSuportadora base: bases) {
+            if (base != null && base.getSuportado() instanceof SuportadoAgrupavelBonus) {
+                base.getSuportado().explodir();
+                count++;
+            }
+        }
+
+    }
 
 
     private void iniciarJogo() {

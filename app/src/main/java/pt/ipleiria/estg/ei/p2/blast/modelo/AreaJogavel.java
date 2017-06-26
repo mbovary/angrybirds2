@@ -1,14 +1,21 @@
 package pt.ipleiria.estg.ei.p2.blast.modelo;
 
-import pt.ipleiria.estg.ei.p2.blast.modelo.bases.Base;
-import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseAr;
-import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
-import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.*;
-import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Posicao;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import pt.ipleiria.estg.ei.p2.blast.modelo.bases.Base;
+import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseAr;
+import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Pedra;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Porco;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Suportado;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Vidro;
+import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Posicao;
 
 public class AreaJogavel implements Iteravel, InterativoPosicao {
     private static int NUMERO_LINHAS;
@@ -274,6 +281,21 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
         aux = getBase(posicao.seguirVetor(new Posicao(2,0)));
         if (aux instanceof  BaseSuportadora){
             bases.add((BaseSuportadora) aux);
+        }
+
+        return bases;
+    }
+
+    public List<BaseSuportadora> getTodasAsBases() {
+        List<BaseSuportadora> bases = new ArrayList<>();
+
+        for (int i = 0; i < NUMERO_LINHAS; i++){
+            for (int j = 0; j<NUMERO_COLUNAS; j++){
+                Base base = getBase(i,j);
+                if (base instanceof BaseSuportadora){
+                    bases.add((BaseSuportadora) base);
+                }
+            }
         }
 
         return bases;

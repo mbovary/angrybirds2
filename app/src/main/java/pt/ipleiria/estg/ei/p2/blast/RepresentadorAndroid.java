@@ -348,4 +348,17 @@ public class RepresentadorAndroid implements OuvinteJogo {
         }
     }
 
+    @Override
+    public void botaoBoosterActivado() {
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
+        for (BaseSuportadora base: bases) {
+            if (base != null && base.getSuportado() instanceof Bomba) {
+                bombaAtivada((Bomba) base.getSuportado());
+            }
+            else if (base != null && base.getSuportado() instanceof Foguete) {
+                fogueteLancado((Foguete) base.getSuportado());
+            }
+        }
+    }
+
 }

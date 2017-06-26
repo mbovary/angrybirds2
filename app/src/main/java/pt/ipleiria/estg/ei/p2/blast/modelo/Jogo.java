@@ -1,14 +1,24 @@
 package pt.ipleiria.estg.ei.p2.blast.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pt.ipleiria.estg.ei.p2.blast.modelo.bases.Base;
 import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoJogo;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialBalao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialPorco;
-import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Pedra;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Porco;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Suportado;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoAgrupavel;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoAgrupavelBonus;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoSensivelOndaChoqueComForca;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Vidro;
 
 public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPosicao {
     private EstadoJogo estadoJogo;
@@ -196,6 +206,12 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
     public void informarCombinacaoBombaseFoguetes(SuportadoAgrupavelBonus suportadoAgrupavelBonus) {
         for (OuvinteJogo ouvinte : ouvintes) {
             ouvinte.combinacaoBombaFogueteAtivada(suportadoAgrupavelBonus);
+        }
+    }
+
+    public void informarBotaoBoosterActivado() {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.botaoBoosterActivado();
         }
     }
 }
