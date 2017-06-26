@@ -1,24 +1,36 @@
 package pt.ipleiria.estg.ei.p2.blast;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import java.util.List;
 
 import pt.ipleiria.estg.dei.gridcomponent.GridComponent;
 import pt.ipleiria.estg.dei.gridcomponent.GridPanelEventHandler;
 import pt.ipleiria.estg.ei.p2.blast.modelo.Jogo;
+import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoAgrupavelBonus;
 
 public class MainActivity extends AppCompatActivity implements GridPanelEventHandler {
+
+    private static final int ADDBOOSTER = 1;
+    public static final String BOOSTER = "BOOSTER";
+
     private Jogo jogo;
     private GridComponent gridComponent;
     private RepresentadorAndroid representadorAndroid;
     private GridComponent gridComponentInfo;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         gridComponent = (GridComponent) findViewById(R.id.gridAreaJogavel);
         gridComponentInfo = (GridComponent) findViewById(R.id.gridInfo);
 
@@ -26,6 +38,42 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
 
 
     }
+
+    //CRIAR O BOOSTER NO MENU
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.booster, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuBooster:
+                Intent intent = ResultadoActivity.createIntent(this);
+                startActivityForResult(intent, ADDBOOSTER);
+                explodirBoosters();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void explodirBoosters() {
+        int count = 0;
+        jogo.informarBotaoBoosterActivado();
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
+        for (BaseSuportadora base: bases) {
+            if (base != null && base.getSuportado() instanceof SuportadoAgrupavelBonus) {
+                base.getSuportado().explodir();
+                count++;
+            }
+        }
+
+    }
+
 
     private void iniciarJogo() {
         limparComponente(gridComponent);
@@ -78,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
     public void dragged(int linha, int coluna) {
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -309,6 +309,23 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
         return bases;
     }
 
+
+    public List<BaseSuportadora> getTodasAsBases() {
+        List<BaseSuportadora> bases = new ArrayList<>();
+
+        for (int i = 0; i < NUMERO_LINHAS; i++){
+            for (int j = 0; j<NUMERO_COLUNAS; j++){
+                Base base = getBase(i,j);
+                if (base instanceof BaseSuportadora){
+                    bases.add((BaseSuportadora) base);
+                }
+            }
+        }
+
+        return bases;
+    }
+}
+
     public List<BaseSuportadora> getBasesSuportadorasMesmaEspecie(Posicao posicao, Especie especie) {
         List<BaseSuportadora> bases = new ArrayList<>();
 
@@ -327,17 +344,5 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
         return bases;
     }
 
-    public List<BaseSuportadora> getTodasAsBases() {
-        List<BaseSuportadora> bases = new ArrayList<>();
-
-        for (int k = 0; k < NUMERO_LINHAS; k++) {
-            for (int i = 0; i < NUMERO_COLUNAS; i++) {
-                Base aux = getBase(k, i);
-                if (aux instanceof BaseSuportadora)
-                    bases.add((BaseSuportadora) aux);
-            }
-        }
-        return bases;
-    }
     }
 

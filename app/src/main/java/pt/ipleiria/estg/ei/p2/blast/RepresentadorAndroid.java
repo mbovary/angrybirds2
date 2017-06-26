@@ -86,6 +86,8 @@ public class RepresentadorAndroid implements OuvinteJogo {
         representarInfo();
     }
 
+
+
     public void representarInfo() {
         representarObjetivoJogo();
         representarNumeroMovimentosRestantes();
@@ -352,6 +354,17 @@ public class RepresentadorAndroid implements OuvinteJogo {
     }
 
     @Override
+    public void botaoBoosterActivado() {
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
+        for (BaseSuportadora base: bases) {
+            if (base != null && base.getSuportado() instanceof Bomba) {
+                bombaAtivada((Bomba) base.getSuportado());
+            }
+            else if (base != null && base.getSuportado() instanceof Foguete) {
+                fogueteLancado((Foguete) base.getSuportado());
+            }
+
+    @Override      
     public void laserCriada(Laser laser, BaseSuportadora baseSuportadora) {
         componente.setCurrentLayer(1);
         Posicao posicao = laser.getBaseSuportadora().getPosicao();
@@ -402,8 +415,6 @@ public class RepresentadorAndroid implements OuvinteJogo {
             Posicao posicao2 =  base.getPosicao();
             colocarEm(posicao2, "Foguete.png");
             animar(posicao2, TEMPO_ANIMACAO, "Explosao.png", 2);
-
-
         }
     }
 

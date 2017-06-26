@@ -210,6 +210,12 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         }
     }
 
+
+    public void informarBotaoBoosterActivado() {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.botaoBoosterActivado();
+        }
+    }
     public void informarCriacaoLaser(Laser laser, BaseSuportadora baseSuportadora) {
         for (OuvinteJogo ouvinte : ouvintes) {
             ouvinte.laserCriada(laser, baseSuportadora);
@@ -237,4 +243,5 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         for (OuvinteJogo ouvinte : ouvintes)
             ouvinte.combinacaoLaserFogueteDisparados(laser);
     }
+
 }

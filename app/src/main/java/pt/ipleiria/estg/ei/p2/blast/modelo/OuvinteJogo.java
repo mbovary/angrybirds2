@@ -41,6 +41,8 @@ public interface OuvinteJogo {
 
     void combinacaoBombaFogueteAtivada(SuportadoAgrupavelBonus suportadoAgrupavelBonus);
 
+    void botaoBoosterActivado();
+
     void laserCriada(Laser laser, BaseSuportadora baseSuportadora);
 
     void laserDisparado(Laser laser);
@@ -50,4 +52,5 @@ public interface OuvinteJogo {
     void combinacaoLaserBombaDisparados(Laser laser);
 
     void combinacaoLaserFogueteDisparados(Laser laser);
+
 }

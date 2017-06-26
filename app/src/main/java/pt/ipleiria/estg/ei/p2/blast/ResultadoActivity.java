@@ -34,6 +34,9 @@ public class ResultadoActivity extends AppCompatActivity {
         setResult(RESULT_OK);
         finish();
     }
+    public static Intent createIntent(Context context) {
+        return new Intent(context, ResultadoActivity.class);
+    }
 
     public static Intent createIntent(Context context, String mensagem) {
         return new Intent(context, ResultadoActivity.class).putExtra(MENSAGEM, mensagem);
