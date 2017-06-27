@@ -223,6 +223,7 @@ public class RepresentadorAndroid implements OuvinteJogo {
 
     @Override
     public void objetivosConcluidos() {
+        jogo.getAreaJogavel().criarFoguetesExtra();
         int countbooster = jogo.getAreaJogavel().getCountbooster();
         Intent intent = ResultadoActivity.createIntent(context, context.getString(R.string.txtConcluidoSucessoText) + "\n Explodiu " + Integer.toString(countbooster) + " Bonus!");
         context.startActivityForResult(intent, JOGAR_NOVAMENTE);
@@ -373,6 +374,7 @@ public class RepresentadorAndroid implements OuvinteJogo {
     public void caixaSurpresaComOvoCriada(CaixaSurpresa caixa, BaseSuportadora baseSuportadora) {
         componente.setCurrentLayer(1);
         colocarEm(baseSuportadora.getPosicao(), "CaixaSupresa.png");
+    }
 
     public void botaoBoosterActivado() {
         List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();

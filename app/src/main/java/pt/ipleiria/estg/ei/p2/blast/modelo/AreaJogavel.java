@@ -47,7 +47,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
             {PEDRA__, BASESUP, BASESUP, BASEAR_, BASEAR_, PEDRA__, BASESUP, BASESUP, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, MADEIRA, MADEIRA, BASESUP},
-            {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BOMBA__, BASESUP, VIDRO__},
+            {BASESUP, CAIXA__, BASESUP, BASESUP, BASESUP, BASESUP, BOMBA__, BASESUP, VIDRO__},
             {BASESUP, CAIXA__, BASESUP, FOGUETE, LASER__, BASESUP, FOGUETE, BASESUP, VIDRO__},
             {BASEAR_, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASEAR_}
     };
@@ -81,6 +81,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
                         break;
                     case CAIXA__:
                         criarCaixaSurpresa((BaseSuportadora) grelha[i][j]);
+                        break;
                     case LASER__:
                         criarLaser((BaseSuportadora) grelha[i][j]);
                         break;
@@ -100,8 +101,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
                 jogo.informarCriacaoCaixaSurpresa(caixa, baseSuportadora);
                 baseSuportadora.setSuportado(caixa);
             }
-        }
-        else {
+        } else {
             caixa = new CaixaSurpresa(baseSuportadora, true);
             if (jogo != null) {
                 jogo.informarCriacaoCaixaSupresaComOvo(caixa, baseSuportadora);
@@ -110,6 +110,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
         }
         baseSuportadora.setSuportado(caixa);
+    }
 
     private void criarLaser(BaseSuportadora baseSuportadora) {
         Laser laser = new Laser(baseSuportadora);

@@ -49,7 +49,7 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         objetivoJogo = new ObjetivoJogo();
         objetivoJogo.adicionar(new ObjetivoParcialBalao(Especie.STELLA, 4));
         objetivoJogo.adicionar(new ObjetivoParcialPorco(2));
-        objetivoJogo.adicionar(new ObjetivoParcialOvo(2));
+        objetivoJogo.adicionar(new ObjetivoParcialOvo(1));
         ouvintes = new ArrayList<>();
 
     }
