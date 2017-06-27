@@ -41,6 +41,14 @@ public interface OuvinteJogo {
 
     void combinacaoBombaFogueteAtivada(SuportadoAgrupavelBonus suportadoAgrupavelBonus);
 
+    void caixaSurpresaCriada(CaixaSurpresa caixa, BaseSuportadora baseSuportadora);
+
+    void caixaSurpresaComOvoCriada(CaixaSurpresa caixa, BaseSuportadora baseSuportadora);
+
+    void caixaSurpresaComOvoRebentada(CaixaSurpresa caixa);
+
+    void caixaSurpresaSemOvoRebentada(CaixaSurpresa caixa);
+
     void botaoBoosterActivado();
 
     void laserCriada(Laser laser, BaseSuportadora baseSuportadora);

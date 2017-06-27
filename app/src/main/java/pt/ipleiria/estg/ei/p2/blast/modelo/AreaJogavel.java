@@ -9,6 +9,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseAr;
 import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.CaixaSurpresa;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Laser;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
@@ -30,7 +31,9 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
     private static final int MADEIRA = 5;
     private static final int PEDRA__ = 6;
     private static final int BOMBA__ = 7;
+    private static final int CAIXA__ = 8;
     private static final int LASER__ = 9;
+
     private Random aleatorio = new Random();
     private int countbooster = 0;
 
@@ -45,7 +48,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, MADEIRA, MADEIRA, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BOMBA__, BASESUP, VIDRO__},
-            {BASESUP, BASESUP, BASESUP, FOGUETE, LASER__, BASESUP, FOGUETE, BASESUP, VIDRO__},
+            {BASESUP, CAIXA__, BASESUP, FOGUETE, LASER__, BASESUP, FOGUETE, BASESUP, VIDRO__},
             {BASEAR_, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASEAR_}
     };
 
@@ -76,12 +79,37 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
                     case BOMBA__:
                         criarBomba((BaseSuportadora) grelha[i][j]);
                         break;
+                    case CAIXA__:
+                        criarCaixaSurpresa((BaseSuportadora) grelha[i][j]);
                     case LASER__:
                         criarLaser((BaseSuportadora) grelha[i][j]);
                         break;
                 }
             }
     }
+
+
+    private void criarCaixaSurpresa(BaseSuportadora baseSuportadora) {
+        CaixaSurpresa caixa;
+
+        int randomovo = getValorAleatorio(10);
+
+        if (randomovo >= 5) {
+            caixa = new CaixaSurpresa(baseSuportadora, false);
+            if (jogo != null) {
+                jogo.informarCriacaoCaixaSurpresa(caixa, baseSuportadora);
+                baseSuportadora.setSuportado(caixa);
+            }
+        }
+        else {
+            caixa = new CaixaSurpresa(baseSuportadora, true);
+            if (jogo != null) {
+                jogo.informarCriacaoCaixaSupresaComOvo(caixa, baseSuportadora);
+
+            }
+
+        }
+        baseSuportadora.setSuportado(caixa);
 
     private void criarLaser(BaseSuportadora baseSuportadora) {
         Laser laser = new Laser(baseSuportadora);
@@ -99,6 +127,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
         if (jogo != null) {
             jogo.informarCriacaoLaser(laser, baseSuportadora);
         }
+
     }
 
     public void criarBomba(BaseSuportadora baseSuportadora) {

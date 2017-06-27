@@ -20,8 +20,10 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.bases.Base;
 import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcial;
 import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialBalao;
+import pt.ipleiria.estg.ei.p2.blast.modelo.objetivos.ObjetivoParcialOvo;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.CaixaSurpresa;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Laser;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
@@ -75,6 +77,8 @@ public class RepresentadorAndroid implements OuvinteJogo {
             if (objetivoParcial instanceof ObjetivoParcialBalao) {
                 info.add(0, i, new SingleImageCellRepresentation(context,
                         ((ObjetivoParcialBalao) objetivoParcial).getEspecie().toString() + ".png"));
+            } else if (objetivoParcial instanceof ObjetivoParcialOvo) {
+                info.add(0, i, new SingleImageCellRepresentation(context, "Ovo.png"));
             } else {
                 info.add(0, i, new SingleImageCellRepresentation(context, "Porco2.png"));
             }
@@ -159,6 +163,8 @@ public class RepresentadorAndroid implements OuvinteJogo {
             colocarEm(posicao, "Pedra" + ((Pedra) suportado).getForca() + ".png");
         } else if (suportado instanceof Bomba) {
             colocarEm(posicao, "Bomba.png");
+        } else if (suportado instanceof CaixaSurpresa) {
+            colocarEm(posicao, "CaixaSurpresa.png");
         } else if (suportado instanceof Laser) {
             colocarEm(posicao, "Laser" + getEspecie().toString() + ".png");
     }
@@ -358,6 +364,16 @@ public class RepresentadorAndroid implements OuvinteJogo {
     }
 
     @Override
+    public void caixaSurpresaCriada(CaixaSurpresa caixa, BaseSuportadora baseSuportadora) {
+        componente.setCurrentLayer(1);
+        colocarEm(baseSuportadora.getPosicao(), "CaixaSurpresa.png");
+    }
+
+    @Override
+    public void caixaSurpresaComOvoCriada(CaixaSurpresa caixa, BaseSuportadora baseSuportadora) {
+        componente.setCurrentLayer(1);
+        colocarEm(baseSuportadora.getPosicao(), "CaixaSupresa.png");
+
     public void botaoBoosterActivado() {
         List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
         for (BaseSuportadora base : bases) {
@@ -391,6 +407,19 @@ public class RepresentadorAndroid implements OuvinteJogo {
     }
 
     @Override
+
+    public void caixaSurpresaComOvoRebentada(CaixaSurpresa caixa) {
+        BaseSuportadora baseSuportadora = caixa.getBaseSuportadora();
+          animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Ovo.png", 2);
+             }
+
+    @Override
+    public void caixaSurpresaSemOvoRebentada(CaixaSurpresa caixa) {
+        BaseSuportadora baseSuportadora = caixa.getBaseSuportadora();
+        animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Explosao.png", 2);
+           }
+
+
     public void combinacaoLasersDisparado(Laser laser) {
         List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
         for (BaseSuportadora base: bases) {
@@ -424,4 +453,5 @@ public class RepresentadorAndroid implements OuvinteJogo {
             animar(posicao2, TEMPO_ANIMACAO, "Explosao.png", 2);
         }
     }
+
 }

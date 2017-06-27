@@ -2,7 +2,7 @@ package pt.ipleiria.estg.ei.p2.blast.modelo.suportados;
 
 import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 
-public class Vidro extends SuportadoSensivelOndaChoque {
+public class Vidro extends SuportadoSensivelOndaChoqueSemForca {
 
     public Vidro(BaseSuportadora baseSuportadora) {
         super(baseSuportadora);
@@ -14,13 +14,5 @@ public class Vidro extends SuportadoSensivelOndaChoque {
         getJogo().incrementarPontuacao(50);
     }
 
-    @Override
-    public void receberOndaChoque() {
-        explodir();
-    }
 
-    @Override
-    public void reagirBonus() {
-        explodir();
-    }
 }
