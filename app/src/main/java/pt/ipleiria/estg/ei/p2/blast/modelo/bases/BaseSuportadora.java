@@ -1,13 +1,19 @@
 package pt.ipleiria.estg.ei.p2.blast.modelo.bases;
 
-import pt.ipleiria.estg.ei.p2.blast.modelo.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import pt.ipleiria.estg.ei.p2.blast.modelo.AreaJogavel;
+import pt.ipleiria.estg.ei.p2.blast.modelo.Especie;
+import pt.ipleiria.estg.ei.p2.blast.modelo.Interativo;
+import pt.ipleiria.estg.ei.p2.blast.modelo.Iteravel;
+import pt.ipleiria.estg.ei.p2.blast.modelo.Jogo;
+import pt.ipleiria.estg.ei.p2.blast.modelo.ReagenteBonus;
+import pt.ipleiria.estg.ei.p2.blast.modelo.SensivelOndaChoque;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Suportado;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoAgrupavel;
 import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Posicao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Sentido;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BaseSuportadora extends Base implements SensivelOndaChoque, Iteravel,
         ReagenteBonus, Interativo {
@@ -146,5 +152,9 @@ public class BaseSuportadora extends Base implements SensivelOndaChoque, Iterave
 
     public void criarBomba() {
         getAreaJogavel().criarBomba(this);
+    }
+
+    public void criarLaser(Especie especie){
+        getAreaJogavel().criarLaserComEspecie(this, especie);
     }
 }

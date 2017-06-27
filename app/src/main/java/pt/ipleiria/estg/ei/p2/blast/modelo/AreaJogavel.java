@@ -11,10 +11,12 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.CaixaSurpresa;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Laser;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Pedra;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Porco;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Suportado;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoAgrupavelBonus;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Vidro;
 import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Posicao;
 
@@ -30,20 +32,23 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
     private static final int PEDRA__ = 6;
     private static final int BOMBA__ = 7;
     private static final int CAIXA__ = 8;
+    private static final int LASER__ = 9;
+
     private Random aleatorio = new Random();
+    private int countbooster = 0;
 
     private Base grelha[][];
     private Jogo jogo;
 
     private static final int[][] NIVEL = {
             {BASEAR_, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASEAR_},
-            {BOMBA__, BASESUP, VIDRO__, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP},
+            {BOMBA__, BASESUP, VIDRO__, BASESUP, BASESUP, BASESUP, LASER__, BASESUP, BASESUP},
             {PORCO__, BASESUP, BASESUP, BASEAR_, BASEAR_, PORCO__, BASESUP, BASESUP, BASESUP},
             {PEDRA__, BASESUP, BASESUP, BASEAR_, BASEAR_, PEDRA__, BASESUP, BASESUP, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, MADEIRA, MADEIRA, BASESUP},
             {BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BOMBA__, BASESUP, VIDRO__},
-            {BASESUP, CAIXA__, BASESUP, BASESUP, BASESUP, BASESUP, FOGUETE, BASESUP, VIDRO__},
+            {BASESUP, CAIXA__, BASESUP, FOGUETE, LASER__, BASESUP, FOGUETE, BASESUP, VIDRO__},
             {BASEAR_, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASESUP, BASEAR_}
     };
 
@@ -76,9 +81,13 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
                         break;
                     case CAIXA__:
                         criarCaixaSurpresa((BaseSuportadora) grelha[i][j]);
+                    case LASER__:
+                        criarLaser((BaseSuportadora) grelha[i][j]);
+                        break;
                 }
             }
     }
+
 
     private void criarCaixaSurpresa(BaseSuportadora baseSuportadora) {
         CaixaSurpresa caixa;
@@ -101,6 +110,24 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
         }
         baseSuportadora.setSuportado(caixa);
+
+    private void criarLaser(BaseSuportadora baseSuportadora) {
+        Laser laser = new Laser(baseSuportadora);
+        baseSuportadora.setSuportado(laser);
+
+        if (jogo != null) {
+            jogo.informarCriacaoLaser(laser, baseSuportadora);
+        }
+    }
+
+    public void criarLaserComEspecie(BaseSuportadora baseSuportadora, Especie especie) {
+        Laser laser = new Laser(baseSuportadora, especie);
+        baseSuportadora.setSuportado(laser);
+
+        if (jogo != null) {
+            jogo.informarCriacaoLaser(laser, baseSuportadora);
+        }
+
     }
 
     public void criarBomba(BaseSuportadora baseSuportadora) {
@@ -277,9 +304,9 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                Posicao p = posicao.seguirVetor(new Posicao(i,j));
+                Posicao p = posicao.seguirVetor(new Posicao(i, j));
                 Base aux = getBaseSuportadora(p.getLinha(), p.getColuna());
-                if (aux instanceof  BaseSuportadora){
+                if (aux instanceof BaseSuportadora) {
                     bases.add((BaseSuportadora) aux);
                 }
             }
@@ -293,23 +320,92 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
 
         bases.addAll(getBasesSuportadorasAdjacentes(posicao));
 
-        Base aux = getBase(posicao.seguirVetor(new Posicao(-2,0)));
-        if (aux instanceof  BaseSuportadora){
+        Base aux = getBase(posicao.seguirVetor(new Posicao(-2, 0)));
+        if (aux instanceof BaseSuportadora) {
             bases.add((BaseSuportadora) aux);
         }
-        aux = getBase(posicao.seguirVetor(new Posicao(0,-2)));
-        if (aux instanceof  BaseSuportadora){
+        aux = getBase(posicao.seguirVetor(new Posicao(0, -2)));
+        if (aux instanceof BaseSuportadora) {
             bases.add((BaseSuportadora) aux);
         }
-        aux = getBase(posicao.seguirVetor(new Posicao(0,2)));
-        if (aux instanceof  BaseSuportadora){
+        aux = getBase(posicao.seguirVetor(new Posicao(0, 2)));
+        if (aux instanceof BaseSuportadora) {
             bases.add((BaseSuportadora) aux);
         }
-        aux = getBase(posicao.seguirVetor(new Posicao(2,0)));
-        if (aux instanceof  BaseSuportadora){
+        aux = getBase(posicao.seguirVetor(new Posicao(2, 0)));
+        if (aux instanceof BaseSuportadora) {
             bases.add((BaseSuportadora) aux);
         }
 
         return bases;
     }
+
+
+    public List<BaseSuportadora> getTodasAsBases() {
+        List<BaseSuportadora> bases = new ArrayList<>();
+
+        for (int i = 0; i < NUMERO_LINHAS; i++) {
+            for (int j = 0; j < NUMERO_COLUNAS; j++) {
+                Base base = getBase(i, j);
+                if (base instanceof BaseSuportadora) {
+                    bases.add((BaseSuportadora) base);
+                }
+            }
+        }
+
+        return bases;
+    }
+
+    public List<BaseSuportadora> getBasesSuportadorasMesmaEspecie(Posicao posicao, Especie especie) {
+        List<BaseSuportadora> bases = new ArrayList<>();
+
+        for (int linha = 0; linha <= NUMERO_LINHAS; linha++) {
+            for (int col = 0; col <= NUMERO_COLUNAS; col++) {
+                Base base = getBase(linha, col);
+                if (base instanceof BaseSuportadora) {
+                    Suportado aux = ((BaseSuportadora) base).getSuportado();
+                    if (aux instanceof Balao) {
+                        if (((Balao) aux).getEspecie() == especie) {
+                            bases.add((BaseSuportadora) base);
+                        }
+                    }
+                }
+            }
+        }
+        return bases;
+    }
+
+    public int getCountbooster() {
+        return countbooster;
+    }
+
+    public void explodirBoosters() {
+        jogo.informarBotaoBoosterActivado();
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
+        for (BaseSuportadora base: bases) {
+            if (base!=null && base.getSuportado() instanceof SuportadoAgrupavelBonus) {
+                base.getSuportado().explodir();
+                countbooster++;
+            }
+        }
+    }
+
+   public void criarFoguetesExtra() {
+       List<BaseSuportadora> basesSuportadoras = getTodasAsBases();
+       List <BaseSuportadora> sembonus = new ArrayList<>();
+
+       for (BaseSuportadora base: basesSuportadoras) {
+           if (!((base.getSuportado() instanceof SuportadoAgrupavelBonus))){
+               sembonus.add(base);
+               }
+       }
+
+       for (int i = 0; i <getJogo().getNumeroMovimentosRestantes();i++){
+           int posicao = getValorAleatorio(sembonus.size());
+           criarFoguete(sembonus.get(posicao));
+           sembonus.get(posicao).getSuportado().reagirBonus();
+       }
+
+
+   }
 }

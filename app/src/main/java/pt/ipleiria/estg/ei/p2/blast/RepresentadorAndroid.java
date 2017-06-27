@@ -25,6 +25,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.CaixaSurpresa;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Laser;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Pedra;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Porco;
@@ -35,6 +36,8 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoSensivelOndaChoqu
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Vidro;
 import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Direcao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Posicao;
+
+import static pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Laser.getEspecie;
 
 public class RepresentadorAndroid implements OuvinteJogo {
 
@@ -86,6 +89,8 @@ public class RepresentadorAndroid implements OuvinteJogo {
 
         representarInfo();
     }
+
+
 
     public void representarInfo() {
         representarObjetivoJogo();
@@ -160,6 +165,8 @@ public class RepresentadorAndroid implements OuvinteJogo {
             colocarEm(posicao, "Bomba.png");
         } else if (suportado instanceof CaixaSurpresa) {
             colocarEm(posicao, "CaixaSurpresa.png");
+        } else if (suportado instanceof Laser) {
+            colocarEm(posicao, "Laser" + getEspecie().toString() + ".png");
     }
     }
 
@@ -216,14 +223,18 @@ public class RepresentadorAndroid implements OuvinteJogo {
 
     @Override
     public void objetivosConcluidos() {
-        Intent intent = ResultadoActivity.createIntent(context, context.getString(R.string.txtConcluidoSucessoText));
+        int countbooster = jogo.getAreaJogavel().getCountbooster();
+        Intent intent = ResultadoActivity.createIntent(context, context.getString(R.string.txtConcluidoSucessoText) + "\n Explodiu " + Integer.toString(countbooster) + " Bonus!");
         context.startActivityForResult(intent, JOGAR_NOVAMENTE);
-    }
+          }
 
     @Override
     public void movimentosEsgotados() {
-        Intent intent = ResultadoActivity.createIntent(context, context.getString(R.string.txtGameOverText));
+        int countbooster = jogo.getAreaJogavel().getCountbooster();
+        Intent intent = ResultadoActivity.createIntent(context, context.getString(R.string.txtGameOverText) + "\n Explodiu " + Integer.toString(countbooster) + " Bonus!");
         context.startActivityForResult(intent, JOGAR_NOVAMENTE);
+
+
     }
 
     @Override
@@ -363,9 +374,40 @@ public class RepresentadorAndroid implements OuvinteJogo {
         componente.setCurrentLayer(1);
         colocarEm(baseSuportadora.getPosicao(), "CaixaSupresa.png");
 
+    public void botaoBoosterActivado() {
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
+        for (BaseSuportadora base : bases) {
+            if (base instanceof BaseSuportadora && base.getSuportado() instanceof Bomba) {
+                bombaAtivada((Bomba) base.getSuportado());
+            } else if (base instanceof BaseSuportadora && base.getSuportado() instanceof Foguete) {
+                fogueteLancado((Foguete) base.getSuportado());
+            }  else if (base instanceof BaseSuportadora && base.getSuportado() instanceof Laser) {
+                laserDisparado((Laser) base.getSuportado());
+            }
+        }
+    }
+
+    @Override      
+    public void laserCriada(Laser laser, BaseSuportadora baseSuportadora) {
+        componente.setCurrentLayer(1);
+        Posicao posicao = laser.getBaseSuportadora().getPosicao();
+        colocarEm(posicao, "Laser" + getEspecie().toString() + ".png");
+
     }
 
     @Override
+    public void laserDisparado(Laser laser) {
+        Posicao posicao = laser.getBaseSuportadora().getPosicao();
+        List<BaseSuportadora> basesSuportadoras = jogo.getAreaJogavel().getBasesSuportadorasMesmaEspecie(laser.getBaseSuportadora().getPosicao(), getEspecie());
+        for (BaseSuportadora base: basesSuportadoras) {
+            animar(base.getPosicao(), TEMPO_ANIMACAO, "Explosao.png", 2);
+
+        }
+
+    }
+
+    @Override
+
     public void caixaSurpresaComOvoRebentada(CaixaSurpresa caixa) {
         BaseSuportadora baseSuportadora = caixa.getBaseSuportadora();
           animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Ovo.png", 2);
@@ -376,5 +418,40 @@ public class RepresentadorAndroid implements OuvinteJogo {
         BaseSuportadora baseSuportadora = caixa.getBaseSuportadora();
         animar(baseSuportadora.getPosicao(), TEMPO_ANIMACAO, "Explosao.png", 2);
            }
+
+
+    public void combinacaoLasersDisparado(Laser laser) {
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
+        for (BaseSuportadora base: bases) {
+            animar(base.getPosicao(), TEMPO_ANIMACAO, "Explosao.png", 2);
+
+
+        }
+    }
+
+
+    @Override
+    public void combinacaoLaserBombaDisparados(Laser laser) {
+        Posicao posicao = laser.getBaseSuportadora().getPosicao();
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getBasesSuportadorasMesmaEspecie(posicao, laser.getEspecie());
+        for (BaseSuportadora base: bases) {
+            Posicao posicao2 =  base.getPosicao();
+            colocarEm(posicao2, "Bomba.png");
+            animar(posicao2, TEMPO_ANIMACAO, "Explosao.png", 2);
+
+
+        }
+            }
+
+    @Override
+    public void combinacaoLaserFogueteDisparados(Laser laser) {
+        Posicao posicao = laser.getBaseSuportadora().getPosicao();
+        List<BaseSuportadora> bases = jogo.getAreaJogavel().getBasesSuportadorasMesmaEspecie(posicao, laser.getEspecie());
+        for (BaseSuportadora base: bases) {
+            Posicao posicao2 =  base.getPosicao();
+            colocarEm(posicao2, "Foguete.png");
+            animar(posicao2, TEMPO_ANIMACAO, "Explosao.png", 2);
+        }
+    }
 
 }

@@ -13,6 +13,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Balao;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Bomba;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.CaixaSurpresa;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Foguete;
+import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Laser;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Madeira;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Pedra;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Porco;
@@ -25,21 +26,32 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Vidro;
 public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPosicao {
     private EstadoJogo estadoJogo;
     private int pontuacao;
+    private int boosters;
     private int numeroMovimentosRestantes;
     private ObjetivoJogo objetivoJogo;
     private List<OuvinteJogo> ouvintes;
+
+    public void setBoosters(int boosters) {
+        this.boosters = boosters;
+    }
+
+    public int getBoosters() {
+        return boosters;
+    }
 
     public Jogo() {
         super(new AreaJogavel());
         estadoJogo = EstadoJogo.A_DECORRER;
         pontuacao = 0;
-        numeroMovimentosRestantes = 10;
+        boosters = 1;
+        numeroMovimentosRestantes = 20;
         areaJogavel.setJogo(this);
         objetivoJogo = new ObjetivoJogo();
         objetivoJogo.adicionar(new ObjetivoParcialBalao(Especie.STELLA, 4));
         objetivoJogo.adicionar(new ObjetivoParcialPorco(2));
         objetivoJogo.adicionar(new ObjetivoParcialOvo(2));
         ouvintes = new ArrayList<>();
+
     }
 
     public int getPontuacao() {
@@ -86,8 +98,11 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
 
     public void influenciarObjetivoDoJogo(Objetivavel objetivavel) {
         objetivoJogo.influenciar(objetivavel);
-        if (objetivoJogo.isConcluido() && estadoJogo==EstadoJogo.A_DECORRER) {
+        if (objetivoJogo.isConcluido() && estadoJogo == EstadoJogo.A_DECORRER) {
             estadoJogo = EstadoJogo.CONCLUIDO_VITORIA;
+            if (numeroMovimentosRestantes > 0) {
+                areaJogavel.criarFoguetesExtra();
+            }
             informarObjetivosAtingidos();
         }
     }
@@ -212,6 +227,7 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         }
     }
 
+
     public void informarCriacaoCaixaSurpresa(CaixaSurpresa caixa, BaseSuportadora baseSuportadora) {
         for (OuvinteJogo ouvinte : ouvintes) {
             ouvinte.caixaSurpresaCriada(caixa, baseSuportadora);
@@ -235,4 +251,39 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
             ouvinte.caixaSurpresaSemOvoRebentada(caixa);
         }
     }
+
+
+    public void informarBotaoBoosterActivado() {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.botaoBoosterActivado();
+        }
+    }
+    public void informarCriacaoLaser(Laser laser, BaseSuportadora baseSuportadora) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.laserCriada(laser, baseSuportadora);
+        }
+    }
+
+    public void informarLaserDisparado(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.laserDisparado(laser);
+        }
+    }
+
+    public void informarCombinacaoLaserDisparado(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes) {
+            ouvinte.combinacaoLasersDisparado(laser);
+        }
+    }
+
+    public void informarCombinacaoLaserBombaDisparados(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes)
+            ouvinte.combinacaoLaserBombaDisparados(laser);
+    }
+
+    public void informarCombinacaoLaserFogueteDisparados(Laser laser) {
+        for (OuvinteJogo ouvinte : ouvintes)
+            ouvinte.combinacaoLaserFogueteDisparados(laser);
+    }
+
 }
