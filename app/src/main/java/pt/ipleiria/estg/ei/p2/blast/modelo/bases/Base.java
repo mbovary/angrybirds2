@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.ei.p2.blast.modelo.bases;
 
 import pt.ipleiria.estg.ei.p2.blast.modelo.AreaJogavel;
+import pt.ipleiria.estg.ei.p2.blast.modelo.Especie;
 import pt.ipleiria.estg.ei.p2.blast.modelo.ObjetoComAreaJogavel;
 import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.SuportadoAgrupavel;
 import pt.ipleiria.estg.ei.p2.blast.modelo.utils.Posicao;
@@ -20,4 +21,6 @@ public abstract class Base extends ObjetoComAreaJogavel {
     public abstract boolean aceita(SuportadoAgrupavel<?> suportadoAgrupavel);
 
     public abstract void agarrar(SuportadoAgrupavel<?> suportadoAgrupavel);
+
+
 }

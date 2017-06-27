@@ -5,7 +5,7 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.bases.BaseSuportadora;
 /**
  * Created by catarina on 24/04/2017.
  */
-public class Bomba extends SuportadoAgrupavelBonus {
+public class Bomba extends SuportadoAgrupavelBonusExplosivo {
 
     public Bomba(BaseSuportadora baseSuportadora) {
         super(baseSuportadora);

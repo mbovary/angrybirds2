@@ -1,24 +1,31 @@
 package pt.ipleiria.estg.ei.p2.blast;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import pt.ipleiria.estg.dei.gridcomponent.GridComponent;
 import pt.ipleiria.estg.dei.gridcomponent.GridPanelEventHandler;
 import pt.ipleiria.estg.ei.p2.blast.modelo.Jogo;
 
+import static pt.ipleiria.estg.ei.p2.blast.R.id.menuBooster;
+
 public class MainActivity extends AppCompatActivity implements GridPanelEventHandler {
-    private Jogo jogo;
+
+       private Jogo jogo;
     private GridComponent gridComponent;
     private RepresentadorAndroid representadorAndroid;
     private GridComponent gridComponentInfo;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         gridComponent = (GridComponent) findViewById(R.id.gridAreaJogavel);
         gridComponentInfo = (GridComponent) findViewById(R.id.gridInfo);
 
@@ -26,6 +33,31 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
 
 
     }
+
+    //CRIAR O BOOSTER NO MENU
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.booster, menu);
+         return true;
+    }
+
+
+   /* @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case menuBooster:
+                countbooster = jogo.getAreaJogavel().explodirBoosters();
+
+                item.setVisible(false);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    } */
+
+
 
     private void iniciarJogo() {
         limparComponente(gridComponent);
@@ -79,15 +111,27 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RepresentadorAndroid.JOGAR_NOVAMENTE) {
+
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == RepresentadorAndroid.JOGAR_NOVAMENTE) {
             if (resultCode == RESULT_OK) {
                 iniciarJogo();
             } else {
-                finish();
+
+                 finish();
             }
         }
 
     }
-}
+
+
+
+    public void activateBooster(MenuItem item) {
+        jogo.getAreaJogavel().explodirBoosters();
+        jogo.setBoosters(0);
+        //added so that the booster button will appear when new game starts
+
+        onMenuItemSelected(menuBooster, item.setVisible(false));
+
+    }
+    }
