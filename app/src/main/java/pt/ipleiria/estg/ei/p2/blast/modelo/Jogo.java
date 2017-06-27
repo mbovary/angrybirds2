@@ -32,7 +32,7 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         super(new AreaJogavel());
         estadoJogo = EstadoJogo.A_DECORRER;
         pontuacao = 0;
-        numeroMovimentosRestantes = 10;
+        numeroMovimentosRestantes = 20;
         areaJogavel.setJogo(this);
         objetivoJogo = new ObjetivoJogo();
         objetivoJogo.adicionar(new ObjetivoParcialBalao(Especie.STELLA, 4));
@@ -86,6 +86,9 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
         objetivoJogo.influenciar(objetivavel);
         if (objetivoJogo.isConcluido() && estadoJogo == EstadoJogo.A_DECORRER) {
             estadoJogo = EstadoJogo.CONCLUIDO_VITORIA;
+            if (numeroMovimentosRestantes > 0) {
+                areaJogavel.criarFoguetesExtra();
+            }
             informarObjetivosAtingidos();
         }
     }

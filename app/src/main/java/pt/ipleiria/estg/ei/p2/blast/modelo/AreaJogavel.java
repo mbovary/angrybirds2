@@ -358,4 +358,23 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
         return countbooster;
 
     }
+
+   public void criarFoguetesExtra() {
+       List<BaseSuportadora> basesSuportadoras = getTodasAsBases();
+       List <BaseSuportadora> sembonus = new ArrayList<>();
+
+       for (BaseSuportadora base: basesSuportadoras) {
+           if (!((base.getSuportado() instanceof SuportadoAgrupavelBonus))){
+               sembonus.add(base);
+               }
+       }
+
+       for (int i = 0; i <getJogo().getNumeroMovimentosRestantes();i++){
+           int posicao = getValorAleatorio(sembonus.size());
+           criarFoguete(sembonus.get(posicao));
+           sembonus.get(posicao).getSuportado().reagirBonus();
+       }
+
+
+   }
 }

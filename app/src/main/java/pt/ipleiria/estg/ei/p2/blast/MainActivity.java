@@ -112,12 +112,12 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RepresentadorAndroid.JOGAR_NOVAMENTE) {
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == RepresentadorAndroid.JOGAR_NOVAMENTE) {
             if (resultCode == RESULT_OK) {
                 iniciarJogo();
             } else {
+
                  finish();
             }
         }
@@ -125,12 +125,14 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
     }
 
 
+
+
     public Intent activateBooster(MenuItem item) {
         int countbooster = jogo.getAreaJogavel().explodirBoosters();
         Intent intent = new Intent(this, ResultadoActivity.class);
         intent.putExtra("countbooster", countbooster);
         ADDBOOSTER = 1;
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, 2);
 
         return intent;
     }
