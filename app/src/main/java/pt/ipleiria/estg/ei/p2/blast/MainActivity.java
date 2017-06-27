@@ -11,12 +11,11 @@ import pt.ipleiria.estg.dei.gridcomponent.GridComponent;
 import pt.ipleiria.estg.dei.gridcomponent.GridPanelEventHandler;
 import pt.ipleiria.estg.ei.p2.blast.modelo.Jogo;
 
+import static pt.ipleiria.estg.ei.p2.blast.R.id.menuBooster;
+
 public class MainActivity extends AppCompatActivity implements GridPanelEventHandler {
 
-    private static int ADDBOOSTER = 0;
-
-
-    private Jogo jogo;
+       private Jogo jogo;
     private GridComponent gridComponent;
     private RepresentadorAndroid representadorAndroid;
     private GridComponent gridComponentInfo;
@@ -40,8 +39,9 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.booster, menu);
-        return true;
+         return true;
     }
+
 
    /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -126,14 +126,12 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
 
 
 
+    public void activateBooster(MenuItem item) {
+        jogo.getAreaJogavel().explodirBoosters();
+        jogo.setBoosters(0);
+        //added so that the booster button will appear when new game starts
 
-    public Intent activateBooster(MenuItem item) {
-        int countbooster = jogo.getAreaJogavel().explodirBoosters();
-        Intent intent = new Intent(this, ResultadoActivity.class);
-        intent.putExtra("countbooster", countbooster);
-        ADDBOOSTER = 1;
-        startActivityForResult(intent, 2);
+        onMenuItemSelected(menuBooster, item.setVisible(false));
 
-        return intent;
     }
-}
+    }

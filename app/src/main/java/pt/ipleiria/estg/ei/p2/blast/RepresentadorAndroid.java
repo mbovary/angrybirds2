@@ -217,14 +217,18 @@ public class RepresentadorAndroid implements OuvinteJogo {
 
     @Override
     public void objetivosConcluidos() {
-        Intent intent = ResultadoActivity.createIntent(context, context.getString(R.string.txtConcluidoSucessoText));
+        int countbooster = jogo.getAreaJogavel().getCountbooster();
+        Intent intent = ResultadoActivity.createIntent(context, context.getString(R.string.txtConcluidoSucessoText) + "\n Explodiu " + Integer.toString(countbooster) + " Bonus!");
         context.startActivityForResult(intent, JOGAR_NOVAMENTE);
-    }
+          }
 
     @Override
     public void movimentosEsgotados() {
-        Intent intent = ResultadoActivity.createIntent(context, context.getString(R.string.txtGameOverText));
+        int countbooster = jogo.getAreaJogavel().getCountbooster();
+        Intent intent = ResultadoActivity.createIntent(context, context.getString(R.string.txtGameOverText) + "\n Explodiu " + Integer.toString(countbooster) + " Bonus!");
         context.startActivityForResult(intent, JOGAR_NOVAMENTE);
+
+
     }
 
     @Override
@@ -357,11 +361,11 @@ public class RepresentadorAndroid implements OuvinteJogo {
     public void botaoBoosterActivado() {
         List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
         for (BaseSuportadora base : bases) {
-            if (base != null && base.getSuportado() instanceof Bomba) {
+            if (base instanceof BaseSuportadora && base.getSuportado() instanceof Bomba) {
                 bombaAtivada((Bomba) base.getSuportado());
-            } else if (base != null && base.getSuportado() instanceof Foguete) {
+            } else if (base instanceof BaseSuportadora && base.getSuportado() instanceof Foguete) {
                 fogueteLancado((Foguete) base.getSuportado());
-            }  else if (base != null && base.getSuportado() instanceof Laser) {
+            }  else if (base instanceof BaseSuportadora && base.getSuportado() instanceof Laser) {
                 laserDisparado((Laser) base.getSuportado());
             }
         }
@@ -420,5 +424,4 @@ public class RepresentadorAndroid implements OuvinteJogo {
             animar(posicao2, TEMPO_ANIMACAO, "Explosao.png", 2);
         }
     }
-
 }

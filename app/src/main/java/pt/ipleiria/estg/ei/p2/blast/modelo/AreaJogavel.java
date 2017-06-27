@@ -32,6 +32,7 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
     private static final int BOMBA__ = 7;
     private static final int LASER__ = 9;
     private Random aleatorio = new Random();
+    private int countbooster = 0;
 
     private Base grelha[][];
     private Jogo jogo;
@@ -345,18 +346,19 @@ public class AreaJogavel implements Iteravel, InterativoPosicao {
         return bases;
     }
 
-    public int explodirBoosters() {
-        int countbooster = 0;
+    public int getCountbooster() {
+        return countbooster;
+    }
+
+    public void explodirBoosters() {
         jogo.informarBotaoBoosterActivado();
         List<BaseSuportadora> bases = jogo.getAreaJogavel().getTodasAsBases();
         for (BaseSuportadora base: bases) {
-            if (base != null && base.getSuportado() instanceof SuportadoAgrupavelBonus) {
+            if (base!=null && base.getSuportado() instanceof SuportadoAgrupavelBonus) {
                 base.getSuportado().explodir();
                 countbooster++;
             }
         }
-        return countbooster;
-
     }
 
    public void criarFoguetesExtra() {

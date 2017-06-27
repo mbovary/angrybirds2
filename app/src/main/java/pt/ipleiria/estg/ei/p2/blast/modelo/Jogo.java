@@ -24,20 +24,31 @@ import pt.ipleiria.estg.ei.p2.blast.modelo.suportados.Vidro;
 public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPosicao {
     private EstadoJogo estadoJogo;
     private int pontuacao;
+    private int boosters;
     private int numeroMovimentosRestantes;
     private ObjetivoJogo objetivoJogo;
     private List<OuvinteJogo> ouvintes;
+
+    public void setBoosters(int boosters) {
+        this.boosters = boosters;
+    }
+
+    public int getBoosters() {
+        return boosters;
+    }
 
     public Jogo() {
         super(new AreaJogavel());
         estadoJogo = EstadoJogo.A_DECORRER;
         pontuacao = 0;
+        boosters = 1;
         numeroMovimentosRestantes = 20;
         areaJogavel.setJogo(this);
         objetivoJogo = new ObjetivoJogo();
         objetivoJogo.adicionar(new ObjetivoParcialBalao(Especie.STELLA, 4));
         objetivoJogo.adicionar(new ObjetivoParcialPorco(2));
         ouvintes = new ArrayList<>();
+
     }
 
     public int getPontuacao() {
