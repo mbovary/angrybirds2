@@ -12,10 +12,11 @@ import pt.ipleiria.estg.dei.gridcomponent.GridPanelEventHandler;
 import pt.ipleiria.estg.ei.p2.blast.modelo.Jogo;
 
 import static pt.ipleiria.estg.ei.p2.blast.R.id.menuBooster;
+import static pt.ipleiria.estg.ei.p2.blast.R.layout.activity_main;
 
 public class MainActivity extends AppCompatActivity implements GridPanelEventHandler {
 
-       private Jogo jogo;
+    private Jogo jogo;
     private GridComponent gridComponent;
     private RepresentadorAndroid representadorAndroid;
     private GridComponent gridComponentInfo;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(activity_main);
         gridComponent = (GridComponent) findViewById(R.id.gridAreaJogavel);
         gridComponentInfo = (GridComponent) findViewById(R.id.gridInfo);
 
@@ -115,9 +116,12 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == RepresentadorAndroid.JOGAR_NOVAMENTE) {
             if (resultCode == RESULT_OK) {
+                //added so that the booster icon appears again after restart of the game
+                invalidateOptionsMenu();
                 iniciarJogo();
             } else {
-
+                //added so that the booster icon appears again after restart of the game
+                 invalidateOptionsMenu();
                  finish();
             }
         }
@@ -128,10 +132,8 @@ public class MainActivity extends AppCompatActivity implements GridPanelEventHan
 
     public void activateBooster(MenuItem item) {
         jogo.getAreaJogavel().explodirBoosters();
-        jogo.setBoosters(0);
-        //added so that the booster button will appear when new game starts
-
         onMenuItemSelected(menuBooster, item.setVisible(false));
+
 
     }
     }

@@ -31,19 +31,11 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
     private ObjetivoJogo objetivoJogo;
     private List<OuvinteJogo> ouvintes;
 
-    public void setBoosters(int boosters) {
-        this.boosters = boosters;
-    }
-
-    public int getBoosters() {
-        return boosters;
-    }
 
     public Jogo() {
         super(new AreaJogavel());
         estadoJogo = EstadoJogo.A_DECORRER;
         pontuacao = 0;
-        boosters = 1;
         numeroMovimentosRestantes = 20;
         areaJogavel.setJogo(this);
         objetivoJogo = new ObjetivoJogo();
@@ -89,6 +81,7 @@ public class Jogo extends ObjetoComAreaJogavel implements Iteravel, InterativoPo
             decrementarNumeroMovimentosRestantes();
             if (numeroMovimentosRestantes == 0 && !objetivoJogo.isConcluido()) {
                 estadoJogo = EstadoJogo.CONCLUIDO_DERROTA;
+
                 informarMovimentosEsgotados();
             }
 
